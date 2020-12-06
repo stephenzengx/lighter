@@ -1,6 +1,6 @@
-﻿using LighterApi.Share;
+﻿using Lighter.Domain.Share;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Project
 {
     public class Task :Entity
     {

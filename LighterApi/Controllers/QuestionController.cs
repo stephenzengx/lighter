@@ -1,15 +1,11 @@
-﻿using LighterApi.Data;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Driver.Linq;
 using System.Collections.Generic;
-using LighterApi.Models;
-using System.Linq;
-using LighterApi.Share;
+using Lighter.Application.Contracts;
+using Lighter.Application.Contracts.Dto;
+using Lighter.Domain.Question;
 
 namespace LighterApi.Controllers
 {
@@ -17,16 +13,10 @@ namespace LighterApi.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly IMongoCollection<Question> _questionCollection;
-        private readonly IMongoCollection<Answer> _answerCollection;
-        private readonly IMongoCollection<Vote> _voteCollection;
-
-        public QuestionController(IMongoClient mongoClient)
+        private readonly IQuestionService _quesitonService;
+        public QuestionController(IQuestionService quesitonService)
         {
-            var database = mongoClient.GetDatabase("lighter");
-            _questionCollection = database.GetCollection<Question>("question");
-            _answerCollection = database.GetCollection<Answer>("answer");
-            _voteCollection = database.GetCollection<Vote>("vote");
+            _quesitonService = quesitonService;
         }
 
         /// <summary>
@@ -35,29 +25,9 @@ namespace LighterApi.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetListAsync([FromQuery]List<string> tags, [FromQuery] string sortFiled, [FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetListAsync([FromQuery] List<string> tags, [FromQuery] string sortFiled, [FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
         {
-            //linq
-            //var questionList = await _questionCollection.AsQueryable()
-            //    .Where(m => m.Tags.Except(tags).Count()<=m.Tags.Count).OrderBy(m => m.ViewCount)//这个写法不知道能不能翻译
-            //    .Skip((page - 1) * pageSize)
-            //    .Take(pageSize)
-            //    .ToListAsync();
-
-            //mongo表达式
-            var filter = Builders<Question>.Filter.Empty;
-            if (tags != null && tags.Any())
-            {
-                filter = Builders<Question>.Filter.AnyIn(q => q.Tags, tags);
-            }
-
-            var sortDefinition = Builders<Question>.Sort.Descending(new StringFieldDefinition<Question>(sortFiled));
-            var result = await _questionCollection
-                        .Find(filter)
-                        .Sort(sortDefinition)
-                        .Skip((page - 1) * pageSize)
-                        .Limit(pageSize)
-                        .ToListAsync();
+            var result = _quesitonService.GetListAsync(tags, cancellationToken);
 
             return Ok(result);
         }
@@ -72,13 +42,8 @@ namespace LighterApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(string id, CancellationToken cancellationToken)
         {
-            //linq
-            //var question = await _questionCollection.AsQueryable().FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
+            var question = await _quesitonService.GetAsync(id, cancellationToken);
 
-            //mongo 查询表达式
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-            var question = await _questionCollection.Find(filter).FirstOrDefaultAsync();
-            
             return Ok(question);
         }
 
@@ -92,13 +57,7 @@ namespace LighterApi.Controllers
         [Route("{id}/answer")]
         public async Task<IActionResult> GetWithAnswerAsync(string id, CancellationToken cancellationToken)
         {
-            //级联多表
-            var query = from question in _questionCollection.AsQueryable()
-                         where question.Id == id
-                         join a in _answerCollection.AsQueryable() on question.Id equals a.QuestionId into answers
-                         select new { question, answers };
-
-            var result = await query.FirstOrDefaultAsync(cancellationToken);
+            var result = await _quesitonService.GetWithAnswerAsync(id, cancellationToken);
 
             return Ok(result);
         }
@@ -107,12 +66,10 @@ namespace LighterApi.Controllers
         /// 创建问题
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] Question question, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync([FromBody] Question request, CancellationToken cancellationToken)
         {
-            question.UserId = "111";//通过token拿userid
-            question.Id = Guid.NewGuid().ToString();
-            await _questionCollection.InsertOneAsync(question, new InsertOneOptions { BypassDocumentValidation = false }, cancellationToken);
-            
+            var question = _quesitonService.CreateAsync(request, cancellationToken);
+
             return StatusCode((int)HttpStatusCode.Created, question);
         }
 
@@ -123,37 +80,7 @@ namespace LighterApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateAsync(string id, [FromBody] QuestionUpdateRequest request, CancellationToken cancellationToken)
         {
-            var filter = Builders<Question>.Filter.Eq(q=>q.Id,id);
-
-            var updateFilterList = new List<UpdateDefinition<Question>>();
-            if (!string.IsNullOrEmpty(request.Title))
-                updateFilterList.Add(Builders<Question>.Update.Set(m => m.Title, request.Title));
-            if (!string.IsNullOrEmpty(request.Content))
-                updateFilterList.Add(Builders<Question>.Update.Set(m => m.Content, request.Content));
-            if (request.Tags != null && request.Tags.Any())
-                updateFilterList.Add(Builders<Question>.Update.Set(m => m.Tags, request.Tags));
-
-            if (!string.IsNullOrEmpty(request.Summary))
-                updateFilterList.Add(Builders<Question>.Update.Push(m=>m.Comments,new Comment {Content=request.Summary,CreateAt= DateTime.Now }));
-
-            UpdateDefinition<Question> updateDefinition = Builders<Question>.Update.Combine(updateFilterList);
-            await _questionCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-
-            return Ok();
-        }
-
-        /// <summary> 
-        /// 删除问题 未测试
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> DeleteAsync(string id, CancellationToken cancellationToken)
-        {
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-            await _questionCollection.DeleteOneAsync(filter);
+            await _quesitonService.UpdateAsync(id, request, cancellationToken);
 
             return Ok();
         }
@@ -166,21 +93,11 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/answer")]
-        public async Task<IActionResult> AnswerAsync(string id,[FromBody] Answer answer, CancellationToken cancellationToken)
+        public async Task<IActionResult> AnswerAsync(string id, [FromBody] AnswerRequest request, CancellationToken cancellationToken)
         {
-            answer.UserId = "111";//通过token拿userid
-            answer.CreateAt = DateTime.Now;
-            answer.Id = Guid.NewGuid().ToString();
-            answer.QuestionId = id;
+            var question = await _quesitonService.AnswerAsync(id, request, cancellationToken);
 
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-            var updateDefinition = Builders<Question>.Update.Push(m=>m.AnswerRecIds, answer.Id);
-
-            //事务 to do
-            await _questionCollection.UpdateOneAsync(filter,updateDefinition,null, cancellationToken);
-            await _answerCollection.InsertOneAsync(answer);
-
-            return Ok();
+            return Ok(question);
         }
 
         /// <summary>
@@ -191,15 +108,11 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/comment")]
-        public async Task<ActionResult<Project>> CommentAsync(string id,[FromBody]Comment comment, CancellationToken cancellationToken)
+        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentRequest request, CancellationToken cancellationToken)
         {
-            comment.CreateAt = DateTime.Now;
-            
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-            var updateDefinition = Builders<Question>.Update.Push(m => m.Comments,  comment);
-            await _questionCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
+            var comment = await  _quesitonService.CommentAsync(id, request, cancellationToken);
 
-            return Ok();
+            return Ok(comment);
         }
 
         /// <summary>
@@ -210,30 +123,9 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/up")]
-        public async Task<ActionResult<Project>> PostUpAsync(string id, CancellationToken cancellationToken)
+        public async Task<ActionResult> PostUpAsync(string id, CancellationToken cancellationToken)
         {
-            // to do
-            //未判断重复投票的问题，以及向上投票时，从向下投票里面清除数组元素，
-            //vote先判断有没有投过票 有的话更新，没有直接插入
-
-            var vote = new Vote { 
-                Id = Guid.NewGuid().ToString(),
-                SourceId = id,
-                SourceType = ConstVoteSourceType.Question,
-                Direction = EnumVoteDirection.Up,
-                UserId = "111",//通过token拿userid
-            };
-
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-            
-            var updateFilterList = new List<UpdateDefinition<Question>>();
-            updateFilterList.Add(Builders<Question>.Update.Inc(m => m.VoteCount, 1));
-            updateFilterList.Add(Builders<Question>.Update.Push(m => m.VoteUpRecIds, vote.Id));
-
-            var updateDefinition = Builders<Question>.Update.Combine(updateFilterList);
-            //事务 to do
-            await _questionCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-            await _voteCollection.InsertOneAsync(vote);
+            await _quesitonService.UpAsync(id, cancellationToken);
 
             return Ok();
         }
@@ -246,27 +138,9 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/down")]
-        public async Task<ActionResult<Project>> PostDownAsync(string id, CancellationToken cancellationToken)
+        public async Task<ActionResult> PostDownAsync(string id, CancellationToken cancellationToken)
         {
-            var vote = new Vote
-            {
-                Id = Guid.NewGuid().ToString(),
-                SourceId = id,
-                SourceType = ConstVoteSourceType.Question,
-                Direction = EnumVoteDirection.Down,
-                UserId = "111",//通过token拿userid
-            };
-
-            var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
-
-            var updateFilterList = new List<UpdateDefinition<Question>>();
-            updateFilterList.Add(Builders<Question>.Update.Inc(m => m.VoteCount, -1));
-            updateFilterList.Add(Builders<Question>.Update.Push(m => m.VoteDownRecIds, vote.Id));
-
-            var updateDefinition = Builders<Question>.Update.Combine(updateFilterList);
-            //事务 to do
-            await _questionCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-            await _voteCollection.InsertOneAsync(vote);
+            await _quesitonService.DownAsync(id, cancellationToken);
 
             return Ok();
         }

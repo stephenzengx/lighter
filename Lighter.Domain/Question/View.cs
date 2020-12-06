@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.Share
+namespace Lighter.Domain.Question
 {
-    public enum EnumVoteDirection:int
+    public class View : Entity
     {
-        Up = 1,
-        Down = 0
+        public string QuestionId { get; set; }
     }
 }

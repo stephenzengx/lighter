@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace LighterApi.Data
+namespace Lighter.Domain.Question
 {
     public class Answer :Entity
     {
@@ -9,7 +9,7 @@ namespace LighterApi.Data
 
         public int VoteCount { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
-        public List<string> VoteUpRecIds { get; set; } = new List<string>(); //向上投票记录id
-        public List<string> VoteDownRecIds { get; set; } = new List<string>(); //向下投票记录id
+        public List<string> VoteUps { get; set; } = new List<string>(); //向上投票记录id
+        public List<string> VoteDowns { get; set; } = new List<string>(); //向下投票记录id
     }
 }

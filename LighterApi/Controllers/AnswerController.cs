@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Lighter.Application.Contracts;
+using Lighter.Application.Contracts.Dto;
+using Lighter.Domain.Question;
 using LighterApi.Data;
-using LighterApi.Share;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -14,18 +16,14 @@ namespace LighterApi.Controllers
     [ApiController]
     public class AnswerController : ControllerBase
     {
-        private readonly IMongoCollection<Answer> _answerCollection;
-        private readonly IMongoCollection<Vote> _voteCollection;
-
-        public AnswerController(IMongoClient mongoClient)
+        private readonly IAnswerService _answerService;
+        public AnswerController(IAnswerService answerService)
         {
-            var database = mongoClient.GetDatabase("lighter");
-            _answerCollection = database.GetCollection<Answer>("answer");
-            _voteCollection = database.GetCollection<Vote>("vote");
+            _answerService = answerService;
         }
 
         /// <summary>
-        /// 获取某个问题答案
+        /// 获取某个问题答案 (答案列表)
         /// </summary>
         /// <param name="questionId"></param>
         /// <param name="cancellationToken"></param>
@@ -34,21 +32,23 @@ namespace LighterApi.Controllers
         public async Task<ActionResult> GetListAsync([FromQuery] string questionId, CancellationToken cancellationToken)
         {
             //linq
-            var result = await _answerCollection.AsQueryable().Where(m => m.QuestionId == questionId).ToListAsync(cancellationToken);
+            var result = await _answerService.GetListAsync(questionId, cancellationToken);
 
             return Ok(result);
         }
 
-        //修改答案
+        /// <summary>
+        /// 修改答案
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="answer"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPatch]
         [Route("{id}")]
         public async Task<ActionResult> UpdateAsync(string id, [FromBody]Answer answer, CancellationToken cancellationToken)
         {
-            var filter = Builders<Answer>.Filter.Eq(q => q.Id, id);
-
-            var updateDefinition = Builders<Answer>.Update.Set(m => m.Content, answer.Content);
-            await _answerCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-
+            await _answerService.UpdateAsync(id, answer.Content, "", cancellationToken);
             return Ok();
         }
 
@@ -61,13 +61,9 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/comment")]
-        public async Task<ActionResult> CommentAsync(string id, [FromBody] Comment comment, CancellationToken cancellationToken)
+        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentRequest comment, CancellationToken cancellationToken)
         {
-            comment.CreateAt = DateTime.Now;
-
-            var filter = Builders<Answer>.Filter.Eq(q => q.Id, id);
-            var updateDefinition = Builders<Answer>.Update.Push(m => m.Comments, comment);
-            await _answerCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
+            await _answerService.CommentAsync(id, comment, cancellationToken);
 
             return Ok();
         }
@@ -82,25 +78,7 @@ namespace LighterApi.Controllers
         [Route("{id}/voteup")]
         public async Task<ActionResult> VoteUpAsync(string id, CancellationToken cancellationToken)
         {
-            var vote = new Vote
-            {
-                Id = Guid.NewGuid().ToString(),
-                SourceId = id,
-                SourceType = ConstVoteSourceType.Anwser,
-                Direction = EnumVoteDirection.Up,
-                UserId = "111",//通过token拿userid
-            };
-
-            var filter = Builders<Answer>.Filter.Eq(q => q.Id, id);
-
-            var updateFilterList = new List<UpdateDefinition<Answer>>();
-            updateFilterList.Add(Builders<Answer>.Update.Inc(m => m.VoteCount, 1));
-            updateFilterList.Add(Builders<Answer>.Update.Push(m => m.VoteUpRecIds, vote.Id));
-
-            var updateDefinition = Builders<Answer>.Update.Combine(updateFilterList);
-            //事务 to do
-            await _answerCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-            await _voteCollection.InsertOneAsync(vote);
+            await _answerService.UpAsync(id, cancellationToken);
 
             return Ok();
         }
@@ -113,27 +91,9 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/down")]
-        public async Task<ActionResult<Project>> PostDownAsync(string id, CancellationToken cancellationToken)
+        public async Task<ActionResult> PostDownAsync(string id, CancellationToken cancellationToken)
         {
-            var vote = new Vote
-            {
-                Id = Guid.NewGuid().ToString(),
-                SourceId = id,
-                SourceType = ConstVoteSourceType.Anwser,
-                Direction = EnumVoteDirection.Down,
-                UserId = "111",//通过token拿userid
-            };
-
-            var filter = Builders<Answer>.Filter.Eq(q => q.Id, id);
-
-            var updateFilterList = new List<UpdateDefinition<Answer>>();
-            updateFilterList.Add(Builders<Answer>.Update.Inc(m => m.VoteCount, -1));
-            updateFilterList.Add(Builders<Answer>.Update.Push(m => m.VoteDownRecIds, vote.Id));
-
-            var updateDefinition = Builders<Answer>.Update.Combine(updateFilterList);
-            //事务 to do
-            await _answerCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
-            await _voteCollection.InsertOneAsync(vote);
+            await _answerService.DownAsync(id, cancellationToken);
 
             return Ok();
         }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Share
 {
-    public class View : Entity
+    public enum EnumTaskStatus
     {
-        public string QuestionId { get; set; }
     }
 }

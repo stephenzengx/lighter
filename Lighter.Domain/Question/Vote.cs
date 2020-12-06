@@ -1,10 +1,6 @@
-﻿using LighterApi.Share;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Lighter.Domain.Share;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Question
 {
     public class Vote : Entity
     {

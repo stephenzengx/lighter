@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Project
 {
     public class SubjectProject :Entity
     {

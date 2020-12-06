@@ -14,6 +14,11 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lighter.Application.Contracts\Lighter.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Lighter.Application\Lighter.Application.csproj" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

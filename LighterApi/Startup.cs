@@ -1,3 +1,5 @@
+using Lighter.Application;
+using Lighter.Application.Contracts;
 using LighterApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +24,11 @@ namespace LighterApi
         //注入服务
         public void ConfigureServices(IServiceCollection services)
         {
+            //注入服务
+            services.AddScoped<IQuestionService, QuestionService>()
+                .AddScoped<IAnswerService, AnswerService>();
+
+            services.AddHttpContextAccessor();//
             //services.AddDbContextPool<LighterDbContext>(options => {
             //    options.UseMySql(Configuration.GetConnectionString("LighterDbContext"));
             //}); 池的性能提升有限，Dbcontext如果有私有变量时，使用池可能有些地方要额外注意
@@ -35,7 +42,7 @@ namespace LighterApi
             services.AddDbContext<LighterDbContext>(options=> {                
                 options.UseMySql(Configuration.GetConnectionString("LighterDbContext"));
             });
-
+            //注入mongo
             services.AddSingleton<IMongoClient>(sp=> {
                 return new MongoClient(Configuration.GetConnectionString("LighterMongoServer"));
             });

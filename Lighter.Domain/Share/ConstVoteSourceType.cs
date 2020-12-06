@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.Share
+namespace Lighter.Domain.Share
 {
     public class ConstVoteSourceType
     {

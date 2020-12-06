@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Project
 {
     public class ProjectGroup :Entity
     {

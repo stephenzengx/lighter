@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.Data
+namespace Lighter.Domain.Question
 {
     public class Question: Entity
     {
@@ -16,9 +16,9 @@ namespace LighterApi.Data
         public int ViewCount { get; set; }
 
         public int VoteCount { get; set; }
-        public List<string> VoteUpRecIds { get; set; } = new List<string>(); //向上投票记录id
-        public List<string> VoteDownRecIds { get; set; } = new List<string>();  //向下投票记录id
+        public List<string> VoteUps { get; set; } = new List<string>(); //向上投票记录id
+        public List<string> VoteDowns { get; set; } = new List<string>();  //向下投票记录id
 
-        public List<string> AnswerRecIds { get; set; } = new List<string>();
+        public List<string> Answers { get; set; } = new List<string>();
     }
 }
