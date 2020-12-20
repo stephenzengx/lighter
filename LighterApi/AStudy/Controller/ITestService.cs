@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LighterApi.AStudy.Controller
+namespace LighterApi
 {
-    interface ITest
+    public interface ITestService
     {
         string GetGuid();
     }

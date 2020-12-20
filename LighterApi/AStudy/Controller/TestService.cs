@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace LighterApi.AStudy.Controller
+namespace LighterApi
 {
-    public class TestService : ITest
+    public class TestService : ITestService
     {
         private string _guid = string.Empty;
 
