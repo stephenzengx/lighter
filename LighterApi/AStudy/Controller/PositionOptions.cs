@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LighterApi
 {
-    public interface ITestService
+    public class PositionOptions
     {
-        string GetGuid();
+        public static string Position = "Position";      
     }
 }

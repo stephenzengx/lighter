@@ -33,17 +33,28 @@ namespace LighterApi
         {
             //AddDbContext /AddDefaultIdentity/AddEntityFrameworkStores /AddRazorPages
 
-            /*
+            /*1-Startup 章节
             StartupFilter和Startup注册中间件方式的区别
             1-StartupFilter注册的中间件比通过Startup注册的中间件先执行。
             2-对于两个采用相同方式注册的中间件，先被注册的中间会先执行。
              */
             // StartupFilter 注册中间件方式2
-            services.AddSingleton<IStartupFilter, RequestSetOptionsStartupFilter>();
+            //services.AddSingleton<IStartupFilter, RequestSetOptionsStartupFilter>();
+
+
+            //2- DI章节 
+            //2.1 使用扩展方法注册服务组 
+            // MyConfigServiceCollectionExtensions 类
+            services.AddConfig(_configuration);
+
+            //2.2 测试生命周期
+            services.AddTransient<IOperationTransient, OperationService>();
+            services.AddScoped<IOperationScoped, OperationService>();
+            services.AddSingleton<IOperationSingleton, OperationService>();
 
             services.AddScoped<IQuestionService, QuestionService>()
                 .AddScoped<IAnswerService, AnswerService>()
-                .AddTransient<ITestService,TestService>();
+                .AddTransient<IOperation,OperationService>();
 
             services.AddHttpContextAccessor();//
             //services.AddDbContextPool<LighterDbContext>(options => {
@@ -92,13 +103,14 @@ namespace LighterApi
                 UseAuthorization: 授权
              */
 
-
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();//路由中间件
+            app.UseSetToken();//自定义中间件
+
+            app.UseRouting();//路由中间件           
 
             app.UseEndpoints(endpoints =>
             {
