@@ -3,12 +3,15 @@ using Lighter.Application.Contracts;
 using LighterApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace LighterApi
 {
@@ -30,7 +33,7 @@ namespace LighterApi
 
         //注入服务 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {           
             //AddDbContext /AddDefaultIdentity/AddEntityFrameworkStores /AddRazorPages
 
             /*1-Startup 章节
@@ -88,27 +91,58 @@ namespace LighterApi
         /// <param name="app">IApplicationBuilder:提供了用于配置应用请求管道机制</param>
         public void Configure(IApplicationBuilder app)
         {
-            /*  1-Configure方法 IApplicationBuilder app参数解释
-                provides the mechanisms to configure an application's request pipeline
-                2-Configure方法 常用中间件   
-                UseDeveloperExceptionPage: 开发人员异常页(中间件)
-                UseExceptionHandler:    异常处理程序
-                UseHsts：HTTP 严格传输安全性(HSTS) ？？
-                UseHttpsRedirection: https 重定向
-                UseMvc()/UseMvcWithDefaultRoute(): MVC
-                Razor Pages: Razor页面
+            #region 中间件原理demo
+            //app.Use(async (context, next) =>
+            //{
+            //    var varia1 = _env.ApplicationName;//LighterApi((程序集的名称)
+            //    var varia2 = _env.EnvironmentName;//Development(环境变量名称)
+            //    var varia3 = _env.ContentRootPath;//E:\Test\lighter\LighterApi(应用程序集所在的文件夹)
+            //    var varia4 = _env.WebRootPath;               
+            //    //_env.WebRootFileProvider
 
-                UseStaticFiles: 静态文件
-                UseRouting：路由中间件
-                UseAuthorization: 授权
-             */
+            //    await context.Response.WriteAsync("mw1 hello world!\r\n");               
+            //    await next.Invoke();
+            //    /*InvalidOperationException: Headers are read-only, response has already started*/
+            //    context.Response.Headers["test"] = "test value";
+            //});
+
+            ////请求管道短路,例如静态文件中间件
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("mw2 hello world!\r\n");
+            //});
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("middleware end!\r\n");
+            //});
+            #endregion
+
+            #region 常用中间件
+            //1 - Configure方法 IApplicationBuilder app参数解释
+            //    provides the mechanisms to configure an application's request pipeline
+            //2 - Configure方法 常用中间件
+            //      UseDeveloperExceptionPage: 开发人员异常页(中间件)
+            //      UseExceptionHandler: 异常处理程序
+            //      UseHsts：HTTP 严格传输安全性(HSTS)  < 加上 Strict - Transport - Security  标头 >
+            //      UseHttpsRedirection: https 重定向 ==》UseStaticFiles: 静态文件 == 》
+            //      UseRouting：路由中间件 == 》 UseCors: 跨域 ==》
+            //      Authentication: 认证 / UseAuthorization: 授权,
+            //      Custom Middlewares 自定义中间件 == 》 Endpoint：终端中间件
+
+            #endregion
 
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler();
+                app.UseHsts();//添加 Strict-Transport-Security 标头
+            }
 
-            app.UseSetToken();//自定义中间件
+            //app.UseSetToken();//自定义中间件
 
             app.UseRouting();//路由中间件           
 

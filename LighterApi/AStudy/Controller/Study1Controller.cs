@@ -15,20 +15,19 @@ namespace LighterApi
     public class Study1Controller : ControllerBase
     {
         //1-Startup
-        //private IServiceProvider _serviceProvider;
-        //private IOperation _operationService;
-        //public Study1Controller(IServiceProvider serviceProvider,IOperation operationService)
-        //{
-        //_serviceProvider = serviceProvider;
-        //1- 通过依赖注入的方式 获取服务
-        //_operationService = operationService;
-        //2-(服务查找)通过serviceProvider 获取服务  （需要引用 Microsoft.Extensions.DependencyInjection)
+        private IServiceProvider _serviceProvider;
+        private IOperation _operationService;
+        public Study1Controller(IServiceProvider serviceProvider, IOperation operationService)
+        {
+            _serviceProvider = serviceProvider;
+            //1- 通过依赖注入的方式 获取服务
+            _operationService = operationService;
+            //2- (服务查找)通过serviceProvider 获取服务  （需要引用 Microsoft.Extensions.DependencyInjection)
 
-        //GetService() 服务不存在,返回null
-        //GetRequiredService() 服务不存在 抛异常
-        //_operationService = _serviceProvider.GetService<OperationService>();
-        //_operationService = _serviceProvider.GetRequiredService<OperationService>();            
-        //}
+            // GetService() 服务不存在,返回null  /  GetRequiredService() 服务不存在 抛异常
+            _operationService = _serviceProvider.GetService<OperationService>();
+            _operationService = _serviceProvider.GetRequiredService<OperationService>();
+        }
 
         #region 验证服务生存周期
         //private readonly ILogger _logger;
@@ -70,7 +69,6 @@ namespace LighterApi
         //}
         #endregion
 
-
         //https://localhost:6001/api/study1/test1?hasToken=Hello
         [Route("IStartupFilter")]
         public IActionResult Test1()
@@ -79,8 +77,6 @@ namespace LighterApi
 
             return Ok(token);
         }
-
-
 
         [Route("settoken")]
         public IActionResult Test3()

@@ -7,6 +7,8 @@ namespace LighterApi
 {
     public class PositionOptions
     {
-        public static string Position = "Position";      
+        public const string Position = "Position";
+        public string Title { get; set; }
+        public string Name { get; set; }
     }
 }
