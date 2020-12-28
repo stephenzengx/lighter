@@ -19,6 +19,11 @@ namespace LighterApi
 
         private PositionOptions  _positionOptions;
 
+        private IOptionsMonitor<PositionOptions> _options;
+
+        private readonly TopItemSettings _monthTopItem;
+        private readonly TopItemSettings _yearTopItem;
+
         //public Config1Controller(IConfiguration config)
         //{
         //    _config = config;
@@ -29,10 +34,27 @@ namespace LighterApi
         /// Microsoft.Extensions.Options.OptionsManager <- IOptions<T>
         /// </summary>
         /// <param name="positionOptions"></param>
-        public Config1Controller(IOptions<PositionOptions> positionOptions)
+        //public Config1Controller(IOptions<PositionOptions> positionOptions)
+        //{
+        //    _positionOptions = positionOptions.Value;
+        //}
+
+        //public Config1Controller(IOptionsSnapshot<PositionOptions> positionOptions)
+        //{
+        //    _positionOptions = positionOptions.Value;
+        //}
+
+        //
+        public Config1Controller(IOptionsSnapshot<TopItemSettings> namedOptionsAccessor)
         {
-            _positionOptions = positionOptions.Value;
+            _monthTopItem = namedOptionsAccessor.Get(TopItemSettings.Month);
+            _yearTopItem = namedOptionsAccessor.Get(TopItemSettings.Year);
         }
+
+        //public Config1Controller(IOptionsMonitor<PositionOptions> options)
+        //{
+        //    _options = options;
+        //}
 
         /// <summary>
         /// config load sequence
@@ -42,13 +64,11 @@ namespace LighterApi
         [Route("sequence")]
         public IActionResult Sequence()
         {
-            /*
-            Microsoft.Extensions.Configuration.ChainedConfigurationProvider
-            JsonConfigurationProvider for 'appsettings.json' (Optional)
-            JsonConfigurationProvider for 'appsettings.Development.json' (Optional)
-            EnvironmentVariablesConfigurationProvider
-            CommandLineConfigurationProvider
-             */
+            /*  Microsoft.Extensions.Configuration.ChainedConfigurationProvider
+                JsonConfigurationProvider for 'appsettings.json' (Optional)
+                JsonConfigurationProvider for 'appsettings.Development.json' (Optional)
+                EnvironmentVariablesConfigurationProvider
+                CommandLineConfigurationProvider  */
 
             string str = "";
             foreach (var provider in _configRoot.Providers.ToList())
@@ -74,6 +94,32 @@ namespace LighterApi
                 _positionOptions = _config.GetSection(PositionOptions.Position).Get<PositionOptions>();
                 return Content(JsonConvert.SerializeObject(_positionOptions));
             }                           
+        }
+
+        [HttpGet]
+        [Route("snapshot")]
+        public IActionResult Snapshot()
+        {
+            Console.WriteLine(_positionOptions.Name,_positionOptions.Title);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("monitor")]
+        public IActionResult Monitor()
+        {
+            _options.OnChange(Options=> Console.WriteLine(_options.CurrentValue.Title+" / " + _options.CurrentValue.Name));
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("IConfigureNamedOptions")]
+        public IActionResult OnGet()
+        {
+            return Content($"Month:Name {_monthTopItem.Name} \n" +
+                           $"Month:Model {_monthTopItem.Model} \n\n" +
+                           $"Year:Name {_yearTopItem.Name} \n" +
+                           $"Year:Model {_yearTopItem.Model} \n");
         }
     }
 }

@@ -5,19 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AStudy\Controller\新文件夹\**" />
-    <Content Remove="AStudy\Controller\新文件夹\**" />
-    <EmbeddedResource Remove="AStudy\Controller\新文件夹\**" />
-    <None Remove="AStudy\Controller\新文件夹\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+    <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
     <PackageReference Include="Rick.Docs.Samples.RouteInfo" Version="1.0.0.3" />
   </ItemGroup>
@@ -25,6 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Lighter.Application.Contracts\Lighter.Application.Contracts.csproj" />
     <ProjectReference Include="..\Lighter.Application\Lighter.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
+using System;
 
 namespace LighterApi
 {
@@ -11,7 +13,22 @@ namespace LighterApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+                logger.Debug("init main");
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                NLog.LogManager.Shutdown();
+            }
         }
 
         /*  使用泛型主机 (IHostBuilder) 时，只能将以下服务类型注入 Startup 构造函数：
@@ -19,6 +36,25 @@ namespace LighterApi
          */
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //配置web服务主机
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    //ASP.NET Core 项目模板默认使用 Kestrel。
+                    //若要在调用 ConfigureWebHostDefaults 后提供其他配置，请使用 ConfigureKestrel：
+                    //webBuilder.ConfigureKestrel(serverOptions =>
+                    //{
+                    //   //配置 Kestrel
+                    //})
+                    webBuilder.UseStartup<Startup>();
+                   
+                })
+                .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                      logging.SetMinimumLevel(LogLevel.Trace);
+                  })
+                .UseNLog() //DI Services
+
                 #region 文件配置提供程序 
                 //.ConfigureAppConfiguration((hostingContext, config) =>
                 //{
@@ -36,26 +72,13 @@ namespace LighterApi
                 //    config.AddXmlFile("MyIniConfig.ini", optional: true, reloadOnChange: true)
                 //                .AddXmlFile($"MyIniConfig.{env.EnvironmentName}.ini",
                 //                        optional: true, reloadOnChange: true);
-                    
+
                 //    config.AddEnvironmentVariables();//环境变量
-                   
+
                 //    if (args != null)
                 //        config.AddCommandLine(args); //命令行
                 //})
                 #endregion
-
-                //配置web服务主机
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    //ASP.NET Core 项目模板默认使用 Kestrel。
-                    //若要在调用 ConfigureWebHostDefaults 后提供其他配置，请使用 ConfigureKestrel：
-                    //webBuilder.ConfigureKestrel(serverOptions =>
-                    //{
-                    //   //配置 Kestrel
-                    //})
-                    //.UseStartup<Startup>();
-                    webBuilder.UseStartup<Startup>();
-                })
 
                 //作用域验证
                 //.UseDefaultServiceProvider((context, options) => {

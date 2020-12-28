@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace LighterApi
 {
@@ -17,16 +18,20 @@ namespace LighterApi
         //1-Startup
         private IServiceProvider _serviceProvider;
         private IOperation _operationService;
-        public Study1Controller(IServiceProvider serviceProvider, IOperation operationService)
+
+        private ILogger<Study1Controller> _logger;
+
+        public Study1Controller(IServiceProvider serviceProvider, IOperation operationService, ILogger<Study1Controller> logger)
         {
             _serviceProvider = serviceProvider;
             //1- 通过依赖注入的方式 获取服务
             _operationService = operationService;
             //2- (服务查找)通过serviceProvider 获取服务  （需要引用 Microsoft.Extensions.DependencyInjection)
-
             // GetService() 服务不存在,返回null  /  GetRequiredService() 服务不存在 抛异常
-            _operationService = _serviceProvider.GetService<OperationService>();
-            _operationService = _serviceProvider.GetRequiredService<OperationService>();
+            //_operationService = _serviceProvider.GetService<OperationService>();
+            //_operationService = _serviceProvider.GetRequiredService<OperationService>();
+
+            _logger = logger;
         }
 
         #region 验证服务生存周期
@@ -79,11 +84,21 @@ namespace LighterApi
         }
 
         [Route("settoken")]
+        [HttpGet]
         public IActionResult Test3()
         {
             var token = HttpContext.Items["token"].ToString();
 
             return Ok(token);
+        }
+
+        [Route("nlog")]
+        [HttpGet]
+        public IActionResult Test4()
+        {
+            _logger.LogInformation("nlog test");
+         
+            return Ok();
         }
     }
 }

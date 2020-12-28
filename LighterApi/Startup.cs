@@ -11,7 +11,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using NLog;
+using NLog.Extensions.Logging;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LighterApi
@@ -70,7 +73,7 @@ namespace LighterApi
                 b => b.UseLazyLoadingProxies()
                       .UseSqlServer(myConnectionString));
              */
-
+                    
             //注入 dbcontext
             services.AddDbContext<LighterDbContext>(options=> {                
                 options.UseMySql(_configuration.GetConnectionString("LighterDbContext"));
@@ -170,6 +173,14 @@ namespace LighterApi
                 app.UseExceptionHandler();
                 app.UseHsts();//添加 Strict-Transport-Security 标头
             }
+
+            #region Nlog记日志
+            //NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
+            Console.WriteLine(_env.ContentRootPath);
+            
+            NLog.LogManager.Configuration.Variables["basedir"] = _env.ContentRootPath;
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
+            #endregion
 
             //app.UseSetToken();//自定义中间件
 
