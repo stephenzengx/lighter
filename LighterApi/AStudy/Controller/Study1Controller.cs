@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Lighter.Application.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NLog;
 
 namespace LighterApi
 {
@@ -90,15 +84,6 @@ namespace LighterApi
             var token = HttpContext.Items["token"].ToString();
 
             return Ok(token);
-        }
-
-        [Route("nlog")]
-        [HttpGet]
-        public IActionResult Test4()
-        {
-            _logger.LogInformation("nlog test");
-         
-            return Ok();
         }
     }
 }

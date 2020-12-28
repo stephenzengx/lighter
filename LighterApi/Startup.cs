@@ -175,11 +175,8 @@ namespace LighterApi
             }
 
             #region Nlog记日志
-            //NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
-            Console.WriteLine(_env.ContentRootPath);
-            
-            NLog.LogManager.Configuration.Variables["basedir"] = _env.ContentRootPath;
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
+            NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
             #endregion
 
             //app.UseSetToken();//自定义中间件

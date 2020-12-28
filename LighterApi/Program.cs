@@ -17,7 +17,6 @@ namespace LighterApi
             try
             {
                 CreateHostBuilder(args).Build().Run();
-                logger.Debug("init main");
             }
             catch (Exception exception)
             {
