@@ -8,9 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using NLog;
+using NLog.Extensions.Logging;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LighterApi
@@ -89,7 +93,7 @@ namespace LighterApi
         /// Configure 方法用于指定应用响应 HTTP 请求的方式
         /// </summary>
         /// <param name="app">IApplicationBuilder:提供了用于配置应用请求管道机制</param>
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             #region 中间件原理demo
             //app.Use(async (context, next) =>
@@ -141,6 +145,14 @@ namespace LighterApi
                 app.UseExceptionHandler();
                 app.UseHsts();//添加 Strict-Transport-Security 标头
             }
+
+            #region Nlog记日志
+            //NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
+            Console.WriteLine(_env.ContentRootPath);
+            
+            NLog.LogManager.Configuration.Variables["basedir"] = _env.ContentRootPath;
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
+            #endregion
 
             //app.UseSetToken();//自定义中间件
 
