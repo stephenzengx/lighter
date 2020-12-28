@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -89,9 +90,36 @@ namespace LighterApi
         /// Configure 方法用于指定应用响应 HTTP 请求的方式
         /// </summary>
         /// <param name="app">IApplicationBuilder:提供了用于配置应用请求管道机制</param>
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            #region 中间件原理demo
+            #region 自定义logprovider / logger
+            ////logging工厂 添加自定义provider (不使用扩展方式)
+            //loggerFactory.AddProvider(new ColorConsoleLoggerProvider(
+            //                          new ColorConsoleLoggerConfiguration
+            //                          {
+            //                              LogLevel = LogLevel.Error,
+            //                              Color = ConsoleColor.Red
+            //                          }));
+
+            ////default LogLevel.Warning; ConsoleColor.Yellow
+            //loggerFactory.AddColorConsoleLogger();
+
+            ////new object
+            //loggerFactory.AddColorConsoleLogger(new ColorConsoleLoggerConfiguration
+            //{
+            //    LogLevel = LogLevel.Debug,
+            //    Color = ConsoleColor.Gray
+            //});
+
+            ////委托方式
+            //loggerFactory.AddColorConsoleLogger(c =>
+            //{
+            //    c.LogLevel = LogLevel.Information;
+            //    c.Color = ConsoleColor.Blue;
+            //});
+            #endregion
+
+            #region 中间件 执行管道 demo
             //app.Use(async (context, next) =>
             //{
             //    var varia1 = _env.ApplicationName;//LighterApi((程序集的名称)
@@ -102,6 +130,7 @@ namespace LighterApi
 
             //    await context.Response.WriteAsync("mw1 hello world!\r\n");               
             //    await next.Invoke();
+            //    await context.Response.WriteAsync("mw1 hello world!\r\n");
             //    /*InvalidOperationException: Headers are read-only, response has already started*/
             //    context.Response.Headers["test"] = "test value";
             //});
@@ -118,7 +147,7 @@ namespace LighterApi
             //});
             #endregion
 
-            #region 常用中间件
+            #region 常用中间件 
             //1 - Configure方法 IApplicationBuilder app参数解释
             //    provides the mechanisms to configure an application's request pipeline
             //2 - Configure方法 常用中间件

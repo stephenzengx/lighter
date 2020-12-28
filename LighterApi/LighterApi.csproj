@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
+    <PackageReference Include="Rick.Docs.Samples.RouteInfo" Version="1.0.0.3" />
   </ItemGroup>
 
   <ItemGroup>
