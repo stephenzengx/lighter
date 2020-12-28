@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LighterApi
 {
-    //使用扩展方法注册服务组 
+    //使用扩展方法注册服务组 (合并服务集合) 
     public static class MyConfigServiceCollectionExtensions
     {
         //合并服务集合
@@ -15,6 +15,11 @@ namespace LighterApi
         {
             services.Configure<PositionOptions>(
                 config.GetSection(PositionOptions.Position));
+            //
+            services.Configure<TopItemSettings>(TopItemSettings.Month,
+                                   config.GetSection("TopItem:Month"));
+            services.Configure<TopItemSettings>(TopItemSettings.Year,
+                                                config.GetSection("TopItem:Year"));
 
             return services;
         }

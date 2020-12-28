@@ -69,7 +69,7 @@ namespace LighterApi
                 b => b.UseLazyLoadingProxies()
                       .UseSqlServer(myConnectionString));
              */
-
+                    
             //×¢Èë dbcontext
             services.AddDbContext<LighterDbContext>(options=> {                
                 options.UseMySql(_configuration.GetConnectionString("LighterDbContext"));
