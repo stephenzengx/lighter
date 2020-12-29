@@ -8,7 +8,7 @@ namespace LighterApi
     [ApiController]
     public class LogController : ControllerBase
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<LogController> _logger;
         //private readonly ILogger _myLogger;
         public LogController(ILogger<LogController> logger)//ILoggerFactory loggerFactory
         {
@@ -45,13 +45,7 @@ namespace LighterApi
         public IActionResult Test4()
         {
             //构造函数 直接注入  NLog._logger 报错
-            //NLog.LogEventInfo errorEvent = new NLog.LogEventInfo(NLog.LogLevel.Error, null, "Pass my custom value");
-            //_logger.Log(errorEvent);
-
-            var ex = new Exception("Exception Test");
-            ex.Data.Add("key1","value1");
-            //params object[] args 这个参数要怎么用？？？
-            _logger.LogError(ex, "exception message");
+            _logger.LogError("nlog loginfo test {userName}", "zxtest");
 
             return Ok();
         }
