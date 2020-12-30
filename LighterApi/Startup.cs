@@ -3,6 +3,7 @@ using Lighter.Application.Contracts;
 using LighterApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -118,7 +119,7 @@ namespace LighterApi
             //});
             #endregion
 
-            #region 中间件 执行管道 demo
+            #region 理解 中间件管道执行顺序 
             //app.Use(async (context, next) =>
             //{
             //    var varia1 = _env.ApplicationName;//LighterApi((程序集的名称)
@@ -135,10 +136,11 @@ namespace LighterApi
             //});
 
             ////请求管道短路,例如静态文件中间件
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("mw2 hello world!\r\n");
-            //});
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("mw2 hello world!\r\n");
+                await next.Invoke();
+            });
 
             //app.Run(async context =>
             //{
@@ -170,19 +172,23 @@ namespace LighterApi
                 app.UseHsts();//添加 Strict-Transport-Security 标头
             }
 
-            #region Nlog记日志
+            #region Nlog设置变量            
             NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
             #endregion
 
             //app.UseSetToken();//自定义中间件
 
-            app.UseRouting();//路由中间件           
-
+            app.UseRouting();//路由中间件  Matches request to an endpoint.      
             app.UseEndpoints(endpoints =>
             {
+                //Namespace: ControllerEndpointRouteBuilderExtensions
                 endpoints.MapControllers();
-                //endpoints.MapGet("/", async context =>
+
+                //endpoints.MapHealthChecks("/healthz").RequireAuthorization();
+
+                //Namespace: EndpointRouteBuilderExtensions
+                //endpoints.MapGet("/", async context => 
                 //{
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
