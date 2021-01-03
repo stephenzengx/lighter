@@ -13,6 +13,8 @@ namespace LighterApi
     {
         public static void Main(string[] args)
         {
+            //CreateHostBuilder(args).Build().Run();
+
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
@@ -52,9 +54,9 @@ namespace LighterApi
                       logging.ClearProviders();
                       logging.SetMinimumLevel(LogLevel.Trace);
                   })
-                .UseNLog() //DI Services
+                .UseNLog()
 
-                #region 文件配置提供程序 
+        #region 文件配置提供程序 
                 //.ConfigureAppConfiguration((hostingContext, config) =>
                 //{
                 //    config.Sources.Clear();
@@ -77,7 +79,7 @@ namespace LighterApi
                 //    if (args != null)
                 //        config.AddCommandLine(args); //命令行
                 //})
-                #endregion
+        #endregion
 
                 //作用域验证
                 //.UseDefaultServiceProvider((context, options) => {

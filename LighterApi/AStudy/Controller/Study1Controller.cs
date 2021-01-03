@@ -85,5 +85,18 @@ namespace LighterApi
 
             return Ok(token);
         }
+
+        [Route("~/errortest/{city}")]//重写路由url
+        [HttpGet]
+        public IActionResult ErrorTest(string city)
+        {
+            if (!string.Equals(city?.TrimEnd(), "Redmond", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException(
+                    $"We don't offer a weather forecast for {city}.", nameof(city));
+            }
+
+            return Ok("ErrorTest !");
+        }
     }
 }

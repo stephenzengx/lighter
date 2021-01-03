@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Text;
 
 namespace LighterApi
@@ -90,7 +91,7 @@ namespace LighterApi
         /// Configure 方法用于指定应用响应 HTTP 请求的方式
         /// </summary>
         /// <param name="app">IApplicationBuilder:提供了用于配置应用请求管道机制</param>
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)//, ILoggerFactory loggerFactory
         {
             #region 自定义logprovider / logger
             ////logging工厂 添加自定义provider (不使用扩展方式)
@@ -136,11 +137,12 @@ namespace LighterApi
             //});
 
             ////请求管道短路,例如静态文件中间件
-            app.Use(async (context, next) =>
-            {
-                await context.Response.WriteAsync("mw2 hello world!\r\n");
-                await next.Invoke();
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("mw2 hello world!\r\n");
+            //    StatusCode cannot be set because the response has already started.
+            //    await next.Invoke(); //响应开始后 next后面的中间件就不能再修改状态码了
+            //});
 
             //app.Run(async context =>
             //{
@@ -161,16 +163,16 @@ namespace LighterApi
             //      Custom Middlewares 自定义中间件 == 》 Endpoint：终端中间件
 
             #endregion
-
+            
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler();
                 app.UseHsts();//添加 Strict-Transport-Security 标头
             }
+            app.UseGlobalExceptionHandler();
 
             #region Nlog设置变量            
             NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
