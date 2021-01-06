@@ -15,11 +15,11 @@ namespace LighterApi
         {
             services.Configure<PositionOptions>(
                 config.GetSection(PositionOptions.Position));
-            //
+            
             services.Configure<TopItemSettings>(TopItemSettings.Month,
-                                   config.GetSection("TopItem:Month"));
+                config.GetSection("TopItem:Month"));
             services.Configure<TopItemSettings>(TopItemSettings.Year,
-                                                config.GetSection("TopItem:Year"));
+                 config.GetSection("TopItem:Year"));
 
             return services;
         }

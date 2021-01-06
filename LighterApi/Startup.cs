@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -31,11 +33,16 @@ namespace LighterApi
         {
             _configuration = configuration;
             _env = env;
+
+            Console.WriteLine(_env.ApplicationName);//LighterApi((程序集的名称)
+            Console.WriteLine(_env.EnvironmentName);//Development(环境变量名称)
+            Console.WriteLine(_env.ContentRootPath);//E:\Test\lighter\LighterApi(应用程序集所在的文件夹)
+            Console.WriteLine(_env.WebRootPath);    //E:\Test\lighter\LighterApi\StaticFile 静态资源(Program UseWebRoot 设置)  
         }
 
         //注入服务 
         public void ConfigureServices(IServiceCollection services)
-        {           
+        {
             //AddDbContext /AddDefaultIdentity/AddEntityFrameworkStores /AddRazorPages
 
             /*1-Startup 章节
@@ -46,19 +53,41 @@ namespace LighterApi
             // StartupFilter 注册中间件方式2
             //services.AddSingleton<IStartupFilter, RequestSetOptionsStartupFilter>();
 
-
             //2- DI章节 
             //2.1 使用扩展方法注册服务组 
             // MyConfigServiceCollectionExtensions 类
-            services.AddConfig(_configuration);
+            //services.AddConfig(_configuration);
 
             //2.2 测试生命周期
-            services.AddTransient<IOperationTransient, OperationService>();
-            services.AddScoped<IOperationScoped, OperationService>();
-            services.AddSingleton<IOperationSingleton, OperationService>();
+            //services.AddTransient<IOperationTransient, OperationService>();
+            //services.AddScoped<IOperationScoped, OperationService>();
+            //services.AddSingleton<IOperationSingleton, OperationService>();
 
-            services.AddScoped<IQuestionService, QuestionService>()
-                .AddScoped<IAnswerService, AnswerService>()
+            #region 发送http请求
+            //基础用法
+            //services.AddHttpClient(); 
+
+            //命名客户端
+            //services.AddHttpClient("github", client=> {
+            //    client.BaseAddress = new Uri("https://api.github.com/");
+            //    client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+            //    client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            //});
+
+            //类型化客户端
+            //services.AddTransient<ValidateHeaderHandler>();
+            //services.AddHttpClient<RepoService>(c =>
+            //{
+            //    c.BaseAddress = new Uri("https://api.github.com/");
+            //    c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+            //    c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            //})           
+            //.AddHttpMessageHandler<ValidateHeaderHandler>() //设置HttpMessageHandler
+            //.SetHandlerLifetime(TimeSpan.FromMinutes(5)); //设置 HttpMessageHandler生命周期
+            #endregion
+
+            services.AddTransient<IQuestionService, QuestionService>()
+                .AddTransient<IAnswerService, AnswerService>()
                 .AddTransient<IOperation,OperationService>();
 
             services.AddHttpContextAccessor();//
@@ -122,12 +151,7 @@ namespace LighterApi
 
             #region 理解 中间件管道执行顺序 
             //app.Use(async (context, next) =>
-            //{
-            //    var varia1 = _env.ApplicationName;//LighterApi((程序集的名称)
-            //    var varia2 = _env.EnvironmentName;//Development(环境变量名称)
-            //    var varia3 = _env.ContentRootPath;//E:\Test\lighter\LighterApi(应用程序集所在的文件夹)
-            //    var varia4 = _env.WebRootPath;               
-            //    //_env.WebRootFileProvider
+            //{        
 
             //    await context.Response.WriteAsync("mw1 hello world!\r\n");               
             //    await next.Invoke();
@@ -167,16 +191,28 @@ namespace LighterApi
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler
             }
             else
             {
                 app.UseHsts();//添加 Strict-Transport-Security 标头
             }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();//For the wwwroot folder          
+            app.UseStaticFiles(new StaticFileOptions //添加其余的静态文件路径
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @_configuration["StaticFilePath"].Substring(1))
+                ),
+                RequestPath = _configuration["StaticFilePath"]
+            });
+
             app.UseGlobalExceptionHandler();
 
             #region Nlog设置变量            
-            NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
+            //NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
             #endregion
 
             //app.UseSetToken();//自定义中间件

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.IO;
 
 namespace LighterApi
 {
@@ -13,23 +14,23 @@ namespace LighterApi
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
 
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception exception)
-            {
-                logger.Error(exception, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
-            }
+            //var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            //try
+            //{
+            //    CreateHostBuilder(args).Build().Run();
+            //}
+            //catch (Exception exception)
+            //{
+            //    logger.Error(exception, "Stopped program because of exception");
+            //    throw;
+            //}
+            //finally
+            //{
+            //    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+            //    NLog.LogManager.Shutdown();
+            //}
         }
 
         /*  使用泛型主机 (IHostBuilder) 时，只能将以下服务类型注入 Startup 构造函数：
@@ -38,7 +39,7 @@ namespace LighterApi
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 //配置web服务主机
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureWebHostDefaults(webHostBuilder =>
                 {
                     //ASP.NET Core 项目模板默认使用 Kestrel。
                     //若要在调用 ConfigureWebHostDefaults 后提供其他配置，请使用 ConfigureKestrel：
@@ -46,17 +47,21 @@ namespace LighterApi
                     //{
                     //   //配置 Kestrel
                     //})
-                    webBuilder.UseStartup<Startup>();
-                   
+                    //webHostBuilder.UseWebRoot("StaticFile");
+                    webHostBuilder.UseStartup<Startup>();
                 })
-                .ConfigureLogging(logging =>
-                  {
-                      logging.ClearProviders();
-                      logging.SetMinimumLevel(LogLevel.Trace);
-                  })
-                .UseNLog()
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                
+                //NLog 配置
+                //.ConfigureLogging(logging =>
+                //  {
+                //      logging.ClearProviders();
+                //      logging.SetMinimumLevel(LogLevel.Trace);
+                //  })
+                //.UseNLog()
+                
 
-        #region 文件配置提供程序 
+                #region 文件配置提供程序 
                 //.ConfigureAppConfiguration((hostingContext, config) =>
                 //{
                 //    config.Sources.Clear();
@@ -79,7 +84,7 @@ namespace LighterApi
                 //    if (args != null)
                 //        config.AddCommandLine(args); //命令行
                 //})
-        #endregion
+                #endregion
 
                 //作用域验证
                 //.UseDefaultServiceProvider((context, options) => {

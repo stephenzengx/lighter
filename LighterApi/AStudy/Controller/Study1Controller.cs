@@ -28,7 +28,7 @@ namespace LighterApi
             _logger = logger;
         }
 
-        #region 验证服务生存周期
+        #region 验证服务生命周期
         //private readonly ILogger _logger;
         //private readonly IOperationSingleton _singletonOperation;
         //private readonly IOperationScoped _scopedOperation;
