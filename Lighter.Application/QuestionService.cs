@@ -108,7 +108,6 @@ namespace Lighter.Application
         }
         public async Task<Answer> AnswerAsync(string id, AnswerRequest request, CancellationToken cancellationToken)
         {
-
             Answer answer = new Answer();
             answer.UserId = "111";//通过token拿userid
             answer.CreateAt = DateTime.Now;

@@ -16,21 +16,21 @@ namespace LighterApi
         {
             CreateHostBuilder(args).Build().Run();
 
-            //var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            //try
-            //{
-            //    CreateHostBuilder(args).Build().Run();
-            //}
-            //catch (Exception exception)
-            //{
-            //    logger.Error(exception, "Stopped program because of exception");
-            //    throw;
-            //}
-            //finally
-            //{
-            //    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-            //    NLog.LogManager.Shutdown();
-            //}
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                NLog.LogManager.Shutdown();
+            }
         }
 
         /*  使用泛型主机 (IHostBuilder) 时，只能将以下服务类型注入 Startup 构造函数：
@@ -47,18 +47,18 @@ namespace LighterApi
                     //{
                     //   //配置 Kestrel
                     //})
-                    //webHostBuilder.UseWebRoot("StaticFile");
+                    webHostBuilder.UseWebRoot("StaticFile");
                     webHostBuilder.UseStartup<Startup>();
                 })
                 //.UseContentRoot(Directory.GetCurrentDirectory())
                 
                 //NLog 配置
-                //.ConfigureLogging(logging =>
-                //  {
-                //      logging.ClearProviders();
-                //      logging.SetMinimumLevel(LogLevel.Trace);
-                //  })
-                //.UseNLog()
+                .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                      logging.SetMinimumLevel(LogLevel.Trace);
+                  })
+                .UseNLog()
                 
 
                 #region 文件配置提供程序 
@@ -96,45 +96,6 @@ namespace LighterApi
                 //    services.AddTransient<IStartupFilter, RequestSetOptionsStartupFilter>()
                 //)
                 ;
-
-        #region 在不启动的情况下配置服务
-        public static IHostBuilder CreateHostBuilder1(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    //config.AddXmlFile("appsettings.xml", optional: true, reloadOnChange: true);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.ConfigureServices(services =>
-                    {
-                        services.AddControllersWithViews();
-                    })
-                    .Configure(app =>
-                    {
-                        var loggerFactory = app.ApplicationServices
-                            .GetRequiredService<ILoggerFactory>();
-                        var logger = loggerFactory.CreateLogger<Program>();
-                        var env = app.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
-                        var config = app.ApplicationServices.GetRequiredService<IConfiguration>();
-
-                        logger.LogInformation("Logged in Configure");
-
-                        if (env.IsDevelopment())
-                        {
-                            app.UseDeveloperExceptionPage();
-                        }
-                        else
-                        {
-                            app.UseExceptionHandler("/Home/Error");
-                            app.UseHsts();
-                        }
-
-                        var configValue = config["MyConfigKey"];
-                    });
-                });
-        #endregion
-
     };
 
 }
