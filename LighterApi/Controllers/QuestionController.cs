@@ -27,7 +27,7 @@ namespace LighterApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListAsync([FromQuery] List<string> tags, [FromQuery] string sortFiled, [FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
         {
-            var result = _quesitonService.GetListAsync(tags, cancellationToken);
+            var result = await _quesitonService.GetListAsync(tags, cancellationToken);
 
             return Ok(result);
         }
@@ -68,7 +68,7 @@ namespace LighterApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] Question request, CancellationToken cancellationToken)
         {
-            var question = _quesitonService.CreateAsync(request, cancellationToken);
+            var question = await _quesitonService.CreateAsync(request, cancellationToken);
 
             return StatusCode((int)HttpStatusCode.Created, question);
         }

@@ -11,11 +11,11 @@ namespace LighterApi
     /// <summary>
     /// 自定义中间件
     /// </summary>
-    public class RequestSetTokenMiddleware
+    public class TokenValidateMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public RequestSetTokenMiddleware(RequestDelegate next)
+        public TokenValidateMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -28,14 +28,11 @@ namespace LighterApi
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext, IWebHostEnvironment env)
         {
-            if (!httpContext.Request.Query.ContainsKey("hasToken"))
-                await _next(httpContext);
+            //StringValues token = new StringValues();
+            //if (!httpContext.Request.Headers.TryGetValue("Authorization", out token))
+            //    throw new ArgumentNullException();
 
-            StringValues token = new StringValues();
-            if (!httpContext.Request.Headers.TryGetValue("Authorization", out token))
-                throw new ArgumentNullException();
-
-            httpContext.Items["token"] = WebUtility.HtmlEncode(token.FirstOrDefault());                
+            //httpContext.Items["token"] = WebUtility.HtmlEncode(token.FirstOrDefault());                
             await _next(httpContext);
         }
     }

@@ -10,11 +10,11 @@ namespace LighterApi
     /// <summary>
     /// 扩展方法必须定义在静态类中
     /// </summary>
-    public static class RequestSetTokenExtensions
+    public static class TokenValidateExtensions
     {
         public static IApplicationBuilder UseSetToken(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<RequestSetTokenMiddleware>();
+            return builder.UseMiddleware<TokenValidateMiddleware>();
         }
     }
 }

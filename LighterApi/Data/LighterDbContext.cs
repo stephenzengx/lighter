@@ -8,6 +8,13 @@ namespace LighterApi.Data
 {
     public class LighterDbContext: DbContext
     {
+        /*
+         //无法识别 add-migration 命令
+         Import-Module C:\Users\jiewi\.nuget\packages\microsoft.entityframeworkcore.tools\3.1.0\tools\EntityFrameworkCore.psd1
+         
+         add-migration initCreateLighter
+         update-database 
+         */
         public LighterDbContext(DbContextOptions<LighterDbContext> options) : base(options)
         {
             

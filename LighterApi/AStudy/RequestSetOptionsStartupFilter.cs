@@ -13,7 +13,7 @@ namespace LighterApi
         {
             return builder =>
             {
-                builder.UseMiddleware<RequestSetTokenMiddleware>();
+                builder.UseMiddleware<TokenValidateMiddleware>();
                 next(builder);
             };
         }

@@ -40,12 +40,13 @@ namespace LighterApi
             //return ControllerContext.MyDisplayRouteInfo();
         }
 
-        [Route("nlog")]
+
         [HttpGet]
+        [Route("nlog")]
         public IActionResult Test4()
         {
             //构造函数 直接注入  NLog._logger 报错
-            _logger.LogError("nlog loginfo test {userName}", "zxtest");
+            _logger.LogWarning("nlog warning");
 
             return Ok();
         }

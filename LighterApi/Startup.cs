@@ -1,6 +1,3 @@
-using Lighter.Application;
-using Lighter.Application.Contracts;
-using LighterApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,12 +7,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using MongoDB.Driver;
+using Lighter.Application;
+using Lighter.Application.Contracts;
+using LighterApi.Data;
 
 namespace LighterApi
 {
@@ -34,10 +34,10 @@ namespace LighterApi
             _configuration = configuration;
             _env = env;
 
-            Console.WriteLine(_env.ApplicationName);//LighterApi((程序集的名称)
-            Console.WriteLine(_env.EnvironmentName);//Development(环境变量名称)
-            Console.WriteLine(_env.ContentRootPath);//E:\Test\lighter\LighterApi(应用程序集所在的文件夹)
-            Console.WriteLine(_env.WebRootPath);    //E:\Test\lighter\LighterApi\StaticFile 静态资源(Program UseWebRoot 设置)  
+            //Console.WriteLine(_env.ApplicationName);//LighterApi((程序集的名称)
+            //Console.WriteLine(_env.EnvironmentName);//Development(环境变量名称)
+            //Console.WriteLine(_env.ContentRootPath);//E:\Test\lighter\LighterApi(应用程序集所在的文件夹)
+            //Console.WriteLine(_env.WebRootPath);    //E:\Test\lighter\LighterApi\StaticFile 静态资源(Program UseWebRoot 设置)  
         }
 
         //注入服务 
@@ -122,33 +122,6 @@ namespace LighterApi
         /// <param name="app">IApplicationBuilder:提供了用于配置应用请求管道机制</param>
         public void Configure(IApplicationBuilder app)//, ILoggerFactory loggerFactory
         {
-            #region 自定义logprovider / logger
-            ////logging工厂 添加自定义provider (不使用扩展方式)
-            //loggerFactory.AddProvider(new ColorConsoleLoggerProvider(
-            //                          new ColorConsoleLoggerConfiguration
-            //                          {
-            //                              LogLevel = LogLevel.Error,
-            //                              Color = ConsoleColor.Red
-            //                          }));
-
-            ////default LogLevel.Warning; ConsoleColor.Yellow
-            //loggerFactory.AddColorConsoleLogger();
-
-            ////new object
-            //loggerFactory.AddColorConsoleLogger(new ColorConsoleLoggerConfiguration
-            //{
-            //    LogLevel = LogLevel.Debug,
-            //    Color = ConsoleColor.Gray
-            //});
-
-            ////委托方式
-            //loggerFactory.AddColorConsoleLogger(c =>
-            //{
-            //    c.LogLevel = LogLevel.Information;
-            //    c.Color = ConsoleColor.Blue;
-            //});
-            #endregion
-
             #region 理解 中间件管道执行顺序 
             //app.Use(async (context, next) =>
             //{        
