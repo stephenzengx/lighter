@@ -12,7 +12,7 @@ namespace LighterApi
     /// </summary>
     public static class TokenValidateExtensions
     {
-        public static IApplicationBuilder UseSetToken(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseTokenValidate(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<TokenValidateMiddleware>();
         }

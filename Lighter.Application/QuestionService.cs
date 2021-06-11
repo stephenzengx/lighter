@@ -29,7 +29,7 @@ namespace Lighter.Application
             _voteCollection = database.GetCollection<Vote>("votes");
             _answerCollection = database.GetCollection<Answer>("answers");
         }
-        public async Task<List<Question>> GetListAsync(List<string> tags, CancellationToken cancellationToken, string sortFiled = "createdAt", int page = 0, int pageSize = 10)
+        public async Task<List<Question>> GetListAsync(List<string> tags, string sortFiled = "createdAt", int page = 1, int pageSize = 10, CancellationToken cancellationToken=default)
         {
             //linq
             //var questionList = await _questionCollection.AsQueryable()
@@ -81,7 +81,7 @@ namespace Lighter.Application
         public async Task<Question> CreateAsync(Question question, CancellationToken cancellationToken)
         {
             question.Id = Guid.NewGuid().ToString();
-            question.UserId = "111";
+            //question.UserId = ""; //fetch from token
 
             await _questionCollection.InsertOneAsync(question, new InsertOneOptions { BypassDocumentValidation = false }, cancellationToken);
 
@@ -109,7 +109,7 @@ namespace Lighter.Application
         public async Task<Answer> AnswerAsync(string id, AnswerRequest request, CancellationToken cancellationToken)
         {
             Answer answer = new Answer();
-            answer.UserId = "111";//通过token拿userid
+            //answer.UserId = "";//通过token拿userid
             answer.CreateAt = DateTime.Now;
             answer.Id = Guid.NewGuid().ToString();
             answer.QuestionId = id;
@@ -150,7 +150,7 @@ namespace Lighter.Application
                 SourceId = id,
                 SourceType = ConstVoteSourceType.Question,
                 Direction = EnumVoteDirection.Up,
-                UserId = "111",//通过token拿userid
+                //UserId = "",//通过token拿userid
             };
 
             var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
@@ -172,7 +172,7 @@ namespace Lighter.Application
                 SourceId = id,
                 SourceType = ConstVoteSourceType.Question,
                 Direction = EnumVoteDirection.Down,
-                UserId = "111",//通过token拿userid
+                //UserId = "",//通过token拿userid
             };
 
             var filter = Builders<Question>.Filter.Eq(q => q.Id, id);

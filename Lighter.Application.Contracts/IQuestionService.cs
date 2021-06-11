@@ -10,7 +10,7 @@ namespace Lighter.Application.Contracts
     {
         Task<Question> GetAsync(string id, CancellationToken cancellationToken);
         Task<QuestionAnswerReponse> GetWithAnswerAsync(string id, CancellationToken cancellationToken);
-        Task<List<Question>> GetListAsync(List<string> tags, CancellationToken cancellationToken, string sort = "createdAt", int skip = 0, int limit = 10);
+        Task<List<Question>> GetListAsync(List<string> tags, string sort = "createdAt", int page=1, int pageSize = 10, CancellationToken cancellationToken=default );
         Task<Question> CreateAsync(Question question, CancellationToken cancellationToken);
         Task UpdateAsync(string id, QuestionUpdateRequest request, CancellationToken cancellationToken);
         Task<Answer> AnswerAsync(string id, AnswerRequest request, CancellationToken cancellationToken);

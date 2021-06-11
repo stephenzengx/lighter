@@ -27,7 +27,7 @@ namespace LighterApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListAsync([FromQuery] List<string> tags, [FromQuery] string sortFiled, [FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
         {
-            var result = await _quesitonService.GetListAsync(tags, cancellationToken);
+            var result = await _quesitonService.GetListAsync(tags, sortFiled, page, pageSize, cancellationToken);
 
             return Ok(result);
         }

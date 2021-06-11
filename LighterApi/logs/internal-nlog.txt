@@ -1,0 +1,30 @@
+2021-06-11 11:17:14.6891 Info Message Template Auto Format enabled
+2021-06-11 11:17:14.7290 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 11:17:14.9748 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 11:17:14.9748 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 11:17:15.0436 Info Found 38 configuration items
+2021-06-11 11:21:01.4800 Info Message Template Auto Format enabled
+2021-06-11 11:21:01.5020 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 11:21:01.6012 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 11:21:01.6012 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 11:21:01.6477 Info Found 38 configuration items
+2021-06-11 11:55:10.7034 Info Message Template Auto Format enabled
+2021-06-11 11:55:10.7200 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 11:55:10.7973 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 11:55:10.8046 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 11:55:10.8528 Info Found 38 configuration items
+2021-06-11 16:03:56.3022 Info Message Template Auto Format enabled
+2021-06-11 16:03:56.4021 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 16:03:56.7492 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 16:03:56.7583 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 16:03:57.1174 Info Found 38 configuration items
+2021-06-11 16:42:02.4550 Info Message Template Auto Format enabled
+2021-06-11 16:42:02.4703 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 16:42:02.5437 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 16:42:02.5437 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 16:42:02.5841 Info Found 38 configuration items
+2021-06-11 17:05:35.0557 Info Message Template Auto Format enabled
+2021-06-11 17:05:35.0782 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-11 17:05:35.1671 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-11 17:05:35.1671 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-11 17:05:35.2130 Info Found 38 configuration items

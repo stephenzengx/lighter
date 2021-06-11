@@ -63,7 +63,7 @@ namespace LighterApi.Controllers
         {
             //project.Id = System.Guid.NewGuid().ToString();
             _lighterDbContext.Projects.Add(project);
-            await _lighterDbContext.SaveChangesAsync();
+            await _lighterDbContext.SaveChangesAsync(cancellationToken);
 
             return StatusCode((int)HttpStatusCode.Created, project);
         }
@@ -81,7 +81,7 @@ namespace LighterApi.Controllers
             //问题：1-比如一个列表信息，前端难道需要每次检测哪些值修改了 然后选择性地传哪些字段？ 
             //所以这里修改时 通过frombody是不是还是得一个字段一个字段赋值
             //2- 拿请求参数 动态改n个字段的运用场景是什么？能举个例子么？目前自己碰到的修改 前端都是直接上传所有字段
-            var originProject = await _lighterDbContext.Projects.FindAsync(project.Id);
+            var originProject = await _lighterDbContext.Projects.FindAsync(project.Id, cancellationToken);
             if (project == null)
             {
                 return null;
@@ -114,7 +114,7 @@ namespace LighterApi.Controllers
             var attachProject = new Project { Id = id }; 
             _lighterDbContext.Projects.Attach(attachProject);//entity state :Detached
             attachProject.Title = title; //entity state :Modified
-            await _lighterDbContext.SaveChangesAsync(); //entity state : Unchanged
+            await _lighterDbContext.SaveChangesAsync(cancellationToken); //entity state : Unchanged
             return attachProject;
         }
 

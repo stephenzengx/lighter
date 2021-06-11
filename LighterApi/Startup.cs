@@ -188,7 +188,7 @@ namespace LighterApi
             //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
             #endregion
 
-            app.UseSetToken();//自定义中间件
+            //app.UseTokenValidate();//自定义中间件
 
             app.UseRouting();//路由中间件  Matches request to an endpoint.      
             app.UseEndpoints(endpoints =>
