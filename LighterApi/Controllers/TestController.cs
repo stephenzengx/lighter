@@ -45,6 +45,27 @@ namespace LighterApi.Controllers
                 bool IsInRole(string role);     //在否属于某个角色     
              }
              */
+
+            //Microsoft.AspNetCore.Http.HttpContext
+
+            //Microsoft.AspNetCore.Server.HttpSys.AuthenticationManager  / System.Net.AuthenticationManager
+            //AuthenticationManager  AuthenticationSchemes（验证方案名称）
+
+            //Microsoft.AspNetCore.Authentication.IAuthenticationHandler
+            //CookieAuthentication 中间件 HandleSignInAsync
+
+            //var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "奥巴马") }, Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme));
+            //HttpContext.Authentication.SignInAsync(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme, user);
+
+            // Microsoft.IdentityModel 是属于 WIF(Windows Identity Foundation) 的一部分
+            // System.IdentityModel.Tokens.Jwt
+
+            //HttpContext.User.Identity
+            /*
+              Microsoft.AspNetCore.Authentication.IAuthenticationService
+              AuthenticateAsync,ChallengeAsync,ForbidAsync,SignInAsync,SignOutAsync
+             */
+
         }
     }
 }
