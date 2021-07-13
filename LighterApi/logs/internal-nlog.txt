@@ -28,3 +28,153 @@
 2021-06-11 17:05:35.1671 Info Adding target FileTarget(Name=ownFile-web)
 2021-06-11 17:05:35.1671 Info Adding target ConsoleTarget(Name=logconsole)
 2021-06-11 17:05:35.2130 Info Found 38 configuration items
+2021-06-28 19:34:31.2041 Info Message Template Auto Format enabled
+2021-06-28 19:34:31.2076 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 19:34:31.2302 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 19:34:31.2377 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 19:34:31.2377 Info Found 38 configuration items
+2021-06-28 19:34:31.2577 Info Configuration initialized.
+2021-06-28 19:34:31.2577 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-28 19:34:31.3235 Info AppDomain Shutting down. Logger closing...
+2021-06-28 19:34:31.3235 Info Logger has been shut down.
+2021-06-28 19:35:55.5717 Info Message Template Auto Format enabled
+2021-06-28 19:35:55.5717 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 19:35:55.6019 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 19:35:55.6019 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 19:35:55.6170 Info Found 38 configuration items
+2021-06-28 19:35:55.6170 Info Configuration initialized.
+2021-06-28 19:35:55.6170 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-28 19:35:55.6682 Info AppDomain Shutting down. Logger closing...
+2021-06-28 19:35:55.6756 Info Logger has been shut down.
+2021-06-28 19:43:58.8349 Info Message Template Auto Format enabled
+2021-06-28 19:43:58.8349 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 19:43:58.8953 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 19:43:58.8953 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 19:43:58.9201 Info Found 38 configuration items
+2021-06-28 19:45:37.6966 Info Message Template Auto Format enabled
+2021-06-28 19:45:37.6966 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 19:45:37.7541 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 19:45:37.7694 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 19:45:37.8024 Info Found 38 configuration items
+2021-06-28 20:15:49.0436 Info Message Template Auto Format enabled
+2021-06-28 20:15:49.0436 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:15:49.0672 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:15:49.0672 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:15:49.0885 Info Found 38 configuration items
+2021-06-28 20:15:49.0885 Info Configuration initialized.
+2021-06-28 20:15:49.0885 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-28 20:15:49.1363 Info AppDomain Shutting down. Logger closing...
+2021-06-28 20:15:49.1363 Info Logger has been shut down.
+2021-06-28 20:17:14.9958 Info Message Template Auto Format enabled
+2021-06-28 20:17:15.0045 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:17:15.0507 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:17:15.0507 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:17:15.0913 Info Found 38 configuration items
+2021-06-28 20:21:34.5955 Info Message Template Auto Format enabled
+2021-06-28 20:21:34.5987 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:21:34.6187 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:21:34.6187 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:21:34.6400 Info Found 38 configuration items
+2021-06-28 20:21:34.6450 Info Configuration initialized.
+2021-06-28 20:21:34.6450 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-28 20:21:34.6864 Info AppDomain Shutting down. Logger closing...
+2021-06-28 20:21:34.6949 Info Logger has been shut down.
+2021-06-28 20:25:14.3881 Info Message Template Auto Format enabled
+2021-06-28 20:25:14.3977 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:25:14.4627 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:25:14.4627 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:25:14.4974 Info Found 38 configuration items
+2021-06-28 20:25:27.1634 Info Shutdown() called. Logger closing...
+2021-06-28 20:25:27.1634 Info Closing old configuration.
+2021-06-28 20:25:27.1634 Info Logger has been closed down.
+2021-06-28 20:25:27.1634 Info AppDomain Shutting down. Logger closing...
+2021-06-28 20:25:27.1634 Info Logger has been shut down.
+2021-06-28 20:27:06.1075 Info Message Template Auto Format enabled
+2021-06-28 20:27:06.1160 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:27:06.1628 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:27:06.1628 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:27:06.1865 Info Found 38 configuration items
+2021-06-28 20:28:47.7383 Info Message Template Auto Format enabled
+2021-06-28 20:28:47.7383 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:28:47.7858 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:28:47.7858 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:28:47.8120 Info Found 38 configuration items
+2021-06-28 20:30:04.1588 Info Message Template Auto Format enabled
+2021-06-28 20:30:04.1751 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-28 20:30:04.2240 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-28 20:30:04.2240 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-28 20:30:04.2490 Info Found 38 configuration items
+2021-06-29 10:51:25.1944 Info Message Template Auto Format enabled
+2021-06-29 10:51:25.1944 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-29 10:51:25.2417 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-29 10:51:25.2417 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-29 10:51:25.2810 Info Found 38 configuration items
+2021-06-29 10:52:38.1199 Info Shutdown() called. Logger closing...
+2021-06-29 10:52:38.1199 Info Closing old configuration.
+2021-06-29 10:52:38.1199 Info Logger has been closed down.
+2021-06-29 10:55:45.6595 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 10:55:45.6595 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 10:55:45.6727 Info NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 1.6.0.1196. Product version: 1.6.0.
+2021-06-29 10:55:45.6727 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll succeeded!
+2021-06-29 10:55:45.6727 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 10:55:45.6727 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 10:55:45.6785 Info NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.9.0.1511. Product version: 4.9.0.
+2021-06-29 10:55:45.6785 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll succeeded!
+2021-06-29 10:55:45.6785 Info Message Template Auto Format enabled
+2021-06-29 10:55:45.6785 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-29 10:55:45.7160 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-29 10:55:45.7160 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-29 10:55:45.7332 Info Found 38 configuration items
+2021-06-29 10:55:45.7332 Info Configuration initialized.
+2021-06-29 10:55:45.7332 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-29 10:55:52.4371 Info AppDomain Shutting down. Logger closing...
+2021-06-29 10:55:52.4371 Info Logger has been shut down.
+2021-06-29 11:03:45.6831 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:03:45.6831 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:03:45.6983 Info NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 1.6.0.1196. Product version: 1.6.0.
+2021-06-29 11:03:45.6983 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll succeeded!
+2021-06-29 11:03:45.6983 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:03:45.6983 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:03:45.6983 Info NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.9.0.1511. Product version: 4.9.0.
+2021-06-29 11:03:45.6983 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll succeeded!
+2021-06-29 11:03:45.6983 Info Message Template Auto Format enabled
+2021-06-29 11:03:45.6983 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-29 11:03:45.7454 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-29 11:03:45.7454 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-29 11:03:45.7613 Info Found 38 configuration items
+2021-06-29 11:03:45.7613 Info Configuration initialized.
+2021-06-29 11:03:45.7613 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-29 11:04:54.2797 Info AppDomain Shutting down. Logger closing...
+2021-06-29 11:04:54.2797 Info Logger has been shut down.
+2021-06-29 11:05:09.8402 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:05:09.8402 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:05:09.8566 Info NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 1.6.0.1196. Product version: 1.6.0.
+2021-06-29 11:05:09.8566 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll succeeded!
+2021-06-29 11:05:09.8566 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:05:09.8566 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:05:09.8566 Info NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.9.0.1511. Product version: 4.9.0.
+2021-06-29 11:05:09.8566 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll succeeded!
+2021-06-29 11:05:09.8566 Info Message Template Auto Format enabled
+2021-06-29 11:05:09.8677 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-29 11:05:09.9021 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-29 11:05:09.9021 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-29 11:05:09.9188 Info Found 38 configuration items
+2021-06-29 11:05:09.9188 Info Configuration initialized.
+2021-06-29 11:05:09.9188 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.
+2021-06-29 11:06:09.4604 Info AppDomain Shutting down. Logger closing...
+2021-06-29 11:06:09.4604 Info Logger has been shut down.
+2021-06-29 11:09:00.5742 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:09:00.5742 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+2021-06-29 11:09:00.5847 Info NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 1.6.0.1196. Product version: 1.6.0.
+2021-06-29 11:09:00.5847 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll succeeded!
+2021-06-29 11:09:00.5847 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:09:00.5847 Info Loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+2021-06-29 11:09:00.5847 Info NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.9.0.1511. Product version: 4.9.0.
+2021-06-29 11:09:00.5847 Info Auto loading assembly file: E:\MyProject\lighter\LighterApi\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll succeeded!
+2021-06-29 11:09:00.5847 Info Message Template Auto Format enabled
+2021-06-29 11:09:00.5847 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-29 11:09:00.6192 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-29 11:09:00.6192 Info Adding target ConsoleTarget(Name=logconsole)
+2021-06-29 11:09:00.6420 Info Found 38 configuration items
+2021-06-29 11:09:00.6474 Info Configuration initialized.
+2021-06-29 11:09:00.6474 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.7.10445. Product version: 4.6.7.

@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
-using System.IO;
 
 namespace LighterApi
 {
@@ -14,23 +10,23 @@ namespace LighterApi
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
 
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception exception)
-            {
-                logger.Error(exception, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
-            }
+            //var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            //try
+            //{
+            //    CreateHostBuilder(args).Build().Run();
+            //}
+            //catch (Exception exception)
+            //{
+            //    logger.Error(exception, "Stopped program because of exception");
+            //    throw;
+            //}
+            //finally
+            //{
+            //    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+            //    NLog.LogManager.Shutdown();
+            //}
         }
 
         /*  使用泛型主机 (IHostBuilder) 时，只能将以下服务类型注入 Startup 构造函数：
@@ -51,14 +47,14 @@ namespace LighterApi
                     webHostBuilder.UseStartup<Startup>();
                 })
                 //.UseContentRoot(Directory.GetCurrentDirectory())
-                
+
                 //NLog 配置
-                .ConfigureLogging(logging =>
-                  {
-                      logging.ClearProviders();
-                      logging.SetMinimumLevel(LogLevel.Trace);
-                  })
-                .UseNLog()
+                //.ConfigureLogging(logging =>
+                //  {
+                //      logging.ClearProviders();
+                //      logging.SetMinimumLevel(LogLevel.Trace);
+                //  })
+                //.UseNLog()
                 
 
                 #region 文件配置提供程序 

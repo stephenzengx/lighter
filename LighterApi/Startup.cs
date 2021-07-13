@@ -173,24 +173,29 @@ namespace LighterApi
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();//For the wwwroot folder          
-            app.UseStaticFiles(new StaticFileOptions //添加其余的静态文件路径
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), @_configuration["StaticFilePath"].Substring(1))
-                ),
-                RequestPath = _configuration["StaticFilePath"]
-            });
+            //app.UseStaticFiles(new StaticFileOptions //添加其余的静态文件路径
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //        Path.Combine(Directory.GetCurrentDirectory(), @_configuration["StaticFilePath"].Substring(1))
+            //    ),
+            //    RequestPath = _configuration["StaticFilePath"]
+            //});
 
             app.UseGlobalExceptionHandler();
 
             #region Nlog设置变量            
-            //NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
+            NLog.LogManager.Configuration.Variables["connectionString"] = _configuration["ConnectionStrings:LighterDbContext"];
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //避免日志中的中文输出乱码
             #endregion
 
             //app.UseTokenValidate();//自定义中间件
 
-            app.UseRouting();//路由中间件  Matches request to an endpoint.      
+            app.UseRouting();//路由中间件  Matches request to an endpoint.
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
                 //Namespace: ControllerEndpointRouteBuilderExtensions

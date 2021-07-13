@@ -35,6 +35,7 @@ namespace LighterApi
             catch (Exception ex)
             {               
                 await HandleExceptionAsync(httpContext, ex, env.IsDevelopment());
+                Console.WriteLine(env.EnvironmentName);
             }
         }
         private Task HandleExceptionAsync(HttpContext context, Exception ex, bool IsDevelopment)
