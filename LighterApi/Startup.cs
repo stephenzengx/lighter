@@ -63,44 +63,12 @@ namespace LighterApi
             //services.AddScoped<IOperationScoped, OperationService>();
             //services.AddSingleton<IOperationSingleton, OperationService>();
 
-            #region 发送http请求
-            //基础用法
-            //services.AddHttpClient(); 
-
-            //命名客户端
-            //services.AddHttpClient("github", client=> {
-            //    client.BaseAddress = new Uri("https://api.github.com/");
-            //    client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-            //    client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
-            //});
-
-            //类型化客户端
-            //services.AddTransient<ValidateHeaderHandler>();
-            //services.AddHttpClient<RepoService>(c =>
-            //{
-            //    c.BaseAddress = new Uri("https://api.github.com/");
-            //    c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-            //    c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
-            //})           
-            //.AddHttpMessageHandler<ValidateHeaderHandler>() //设置HttpMessageHandler
-            //.SetHandlerLifetime(TimeSpan.FromMinutes(5)); //设置 HttpMessageHandler生命周期
-            #endregion
-
             services.AddTransient<IQuestionService, QuestionService>()
                 .AddTransient<IAnswerService, AnswerService>()
                 .AddTransient<IOperation,OperationService>();
 
-            services.AddHttpContextAccessor();//
-            //services.AddDbContextPool<LighterDbContext>(options => {
-            //    options.UseMySql(Configuration.GetConnectionString("LighterDbContext"));
-            //}); 池的性能提升有限，Dbcontext如果有私有变量时，使用池可能有些地方要额外注意
+            services.AddHttpContextAccessor(); //???
 
-            /*延迟加载 Microsoft.EntityFrameworkCore.Proxies 包
-             .AddDbContext<BloggingContext>(
-                b => b.UseLazyLoadingProxies()
-                      .UseSqlServer(myConnectionString));
-             */
-                    
             //注入 dbcontext
             services.AddDbContext<LighterDbContext>(options=> {                
                 options.UseMySql(_configuration.GetConnectionString("LighterDbContext"));
@@ -195,19 +163,9 @@ namespace LighterApi
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints =>
             {
-                //Namespace: ControllerEndpointRouteBuilderExtensions
                 endpoints.MapControllers();
-
-                //endpoints.MapHealthChecks("/healthz").RequireAuthorization();
-
-                //Namespace: EndpointRouteBuilderExtensions
-                //endpoints.MapGet("/", async context => 
-                //{
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
             });
         }
     }

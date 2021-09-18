@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using NLog.Web;
 
 namespace LighterApi
 {
@@ -7,23 +9,23 @@ namespace LighterApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            //CreateHostBuilder(args).Build().Run();
 
-            //var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            //try
-            //{
-            //    CreateHostBuilder(args).Build().Run();
-            //}
-            //catch (Exception exception)
-            //{
-            //    logger.Error(exception, "Stopped program because of exception");
-            //    throw;
-            //}
-            //finally
-            //{
-            //    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-            //    NLog.LogManager.Shutdown();
-            //}
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                NLog.LogManager.Shutdown();
+            }
         }
 
         /*  使用泛型主机 (IHostBuilder) 时，只能将以下服务类型注入 Startup 构造函数：
