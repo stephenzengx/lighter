@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -31,7 +28,7 @@ namespace LighterApi
         //}
 
         /// <summary>
-        /// Microsoft.Extensions.Options.OptionsManager <- IOptions<T>
+        /// Microsoft.Extensions.Options.OptionsManager IOptions<T>
         /// </summary>
         /// <param name="positionOptions"></param>
         //public Config1Controller(IOptions<PositionOptions> positionOptions)

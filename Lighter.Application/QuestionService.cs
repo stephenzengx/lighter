@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Lighter.Application.Contracts;
 using Lighter.Application.Contracts.Dto;
 using Lighter.Domain.Question;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Operations;
 using MongoDB.Driver.Linq;
 using System.Linq;
 using Lighter.Domain.Share;
@@ -66,7 +63,7 @@ namespace Lighter.Application
 
             return question;
         }
-        public async Task<QuestionAnswerReponse> GetWithAnswerAsync(string id, CancellationToken cancellationToken)
+        public async Task<QuestionAnswerInput> GetWithAnswerAsync(string id, CancellationToken cancellationToken)
         {
             //级联多表
             var query = from question in _questionCollection.AsQueryable()
@@ -76,7 +73,7 @@ namespace Lighter.Application
 
             var result = await query.FirstOrDefaultAsync(cancellationToken);
             
-            return new QuestionAnswerReponse { Question = result.question,AnswerList= result.answers};
+            return new QuestionAnswerInput { Question = result.question,AnswerList= result.answers};
         }
         public async Task<Question> CreateAsync(Question question, CancellationToken cancellationToken)
         {
@@ -87,7 +84,7 @@ namespace Lighter.Application
 
             return question;
         }
-        public async Task UpdateAsync(string id, QuestionUpdateRequest request, CancellationToken cancellationToken)
+        public async Task UpdateAsync(string id, QuestionUpdateInput request, CancellationToken cancellationToken)
         {
             var filter = Builders<Question>.Filter.Eq(q => q.Id, id);
 
@@ -106,7 +103,7 @@ namespace Lighter.Application
 
             await _questionCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
         }
-        public async Task<Answer> AnswerAsync(string id, AnswerRequest request, CancellationToken cancellationToken)
+        public async Task<Answer> AnswerAsync(string id, AnswerInput request, CancellationToken cancellationToken)
         {
             Answer answer = new Answer();
             //answer.UserId = "";//通过token拿userid
@@ -124,7 +121,7 @@ namespace Lighter.Application
 
             return answer;
         }
-        public async Task<Comment> CommentAsync(string id, CommentRequest request, CancellationToken cancellationToken)
+        public async Task<Comment> CommentAsync(string id, CommentInput request, CancellationToken cancellationToken)
         {
             Comment comment = new Comment
             {

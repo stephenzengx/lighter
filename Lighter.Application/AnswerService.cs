@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Lighter.Application.Contracts;
@@ -37,7 +36,7 @@ namespace Lighter.Application
             var updateDefinition = Builders<Answer>.Update.Set(m => m.Content, content);
             await _answerCollection.UpdateOneAsync(filter, updateDefinition, null, cancellationToken);
         }
-        public async Task CommentAsync(string id, CommentRequest request, CancellationToken cancellationToken)
+        public async Task CommentAsync(string id, CommentInput request, CancellationToken cancellationToken)
         {
             Comment comment = new Comment
             {

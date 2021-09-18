@@ -37,16 +37,17 @@ namespace LighterApi.Controllers
 
         [HttpGet]
         [Route("{id}/profile")]
-        public async Task<ActionResult<Project>> GetDetailAsync(string id, CancellationToken cancellationToken)
+        public async Task<Project> GetDetailAsync(string id, CancellationToken cancellationToken)
         {
+            return await new Task<Project>(() => { return new Project();});
             //加载相关group信息 三种加载方式 预先加载 显示加载 懒加载(延迟加载)
             //预先加载 
-            return await _lighterDbContext.Projects.Include(proj => proj.Groups).FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            //return await _lighterDbContext.Projects.Include(proj => proj.Groups).FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             //显示加载
             //var project2 = await _lighterDbContext.Projects.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             //await _lighterDbContext.Entry(project2).Collection(p => p.Groups).LoadAsync();
             //延迟加载 https://docs.microsoft.com/zh-cn/ef/core/querying/related-da ta/lazy
-          
+
 
             //可通过链式调用 ThenInclude，进一步包含更深级别的关联数据
             /*

@@ -78,7 +78,7 @@ namespace LighterApi.Controllers
         /// </summary>
         [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAsync(string id, [FromBody] QuestionUpdateRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAsync(string id, [FromBody] QuestionUpdateInput request, CancellationToken cancellationToken)
         {
             await _quesitonService.UpdateAsync(id, request, cancellationToken);
 
@@ -93,7 +93,7 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/answer")]
-        public async Task<IActionResult> AnswerAsync(string id, [FromBody] AnswerRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> AnswerAsync(string id, [FromBody] AnswerInput request, CancellationToken cancellationToken)
         {
             var question = await _quesitonService.AnswerAsync(id, request, cancellationToken);
 
@@ -108,7 +108,7 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/comment")]
-        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentInput request, CancellationToken cancellationToken)
         {
             var comment = await  _quesitonService.CommentAsync(id, request, cancellationToken);
 

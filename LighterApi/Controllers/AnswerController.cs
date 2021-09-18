@@ -57,7 +57,7 @@ namespace LighterApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/comment")]
-        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentRequest comment, CancellationToken cancellationToken)
+        public async Task<ActionResult> CommentAsync(string id, [FromBody] CommentInput comment, CancellationToken cancellationToken)
         {
             await _answerService.CommentAsync(id, comment, cancellationToken);
 
